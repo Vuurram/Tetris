@@ -17,7 +17,7 @@ class GameWorld
         GameOver
     }
 
-    Texture2D 
+    Texture2D shape1, shape2, shape3, shape4, shape5;
     /// <summary>
     /// The random-number generator of the game.
     /// </summary>
