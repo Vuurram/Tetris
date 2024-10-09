@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Tetris;
+using Microsoft.Xna.Framework.Input;
 
 /// <summary>
 /// A class for representing the game world.
@@ -50,12 +51,16 @@ class GameWorld
 
         grid = new TetrisGrid();
 
-        currentTetrisBlock =  new TetrisBlock(TetrisBlock.TetrisBlocks.O);
+        currentTetrisBlock =  new TetrisBlock(TetrisBlock.TetrisBlocks.J);
 
     }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
+        if(inputHelper.KeyPressed(Keys.Up) == true)
+        {
+            currentTetrisBlock.RotateBlocks();
+        }
     }
 
     public void Update(GameTime gameTime)

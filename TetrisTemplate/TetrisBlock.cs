@@ -9,9 +9,9 @@ namespace Tetris
     {
         public enum TetrisBlocks
         {
-            L, J, O, I, N, Z, T
+            L, J, O, I, S, Z, T
         }
-        public int[,] ShapeBlock { get; set; }
+        public int[,] blockShape { get; set; }
         public TetrisBlocks Blocks { get; private set; }
         public Vector2 position;
         Texture2D emptyCell;
@@ -20,7 +20,7 @@ namespace Tetris
         public TetrisBlock(TetrisBlocks blocks)
         {
             Blocks = blocks;
-            ShapeBlock = GetBlockShape(blocks);
+            blockShape = GetBlockShape(blocks);
             position = Vector2.Zero;
             emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
 
@@ -33,17 +33,17 @@ namespace Tetris
                 case TetrisBlocks.L:
                     return new int[,]
                     {
-                        {1 ,0 ,0 },
-                        {1, 0, 0 },
-                        {1, 1, 0 }
+                        {0 ,0 ,1 },
+                        {1, 1, 1 },
+                        {0, 0, 0 }
 
                     };
                 case TetrisBlocks.J:
                     return new int[,]
                     {
-                        {0 ,0 ,1},
-                        {0, 0, 1},
-                        {0, 1, 1}
+                        {1 ,0 ,0},
+                        {1, 1, 1},
+                        {0, 0, 0}
 
                     };
                 case TetrisBlocks.O:
@@ -55,18 +55,18 @@ namespace Tetris
                 case TetrisBlocks.I:
                     return new int[,]
                     {
-                        {1 ,1, 1, 1},
-                        {0, 0, 0, 0},
-                        {0, 0, 0, 0},
-                        {0, 0, 0, 0}
+                        {0 ,1, 0, 0},
+                        {0, 1, 0, 0},
+                        {0, 1, 0, 0},
+                        {0, 1, 0, 0}
 
                     };
-                case TetrisBlocks.N:
+                case TetrisBlocks.S:
                     return new int[,]
                     {
-                        {0, 1, 0},
+                        {0, 1, 1},
                         {1, 1, 0},
-                        {1, 0, 0 }
+                        {0, 0, 0 }
                     };
                 case TetrisBlocks.Z:
                     return new int[,]
@@ -88,14 +88,29 @@ namespace Tetris
             }
         }
 
+        public void RotateBlocks()
+        {
+            int q = blockShape.GetLength(0);
+            int r = blockShape.GetLength(1);
+            int[,] rotatedBlockShape = new int[q, r];
+
+            for (int x = 0; x < q; x++)
+            {
+                for (int y = 0; y < r; y++)
+                {
+                    rotatedBlockShape[y, q - 1 - x] = blockShape[x, y];
+                }
+            }
+            blockShape = rotatedBlockShape;
+        }
 
         public void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < ShapeBlock.GetLength(0); i++)
+            for (int i = 0; i < blockShape.GetLength(0); i++)
             {
-                for (int j = 0; j < ShapeBlock.GetLength(1); j++)
+                for (int j = 0; j < blockShape.GetLength(1); j++)
                 {
-                    if (ShapeBlock[i, j] == 1)
+                    if (blockShape[i, j] == 1)
                     {
                         spriteBatch.Draw(emptyCell, new Vector2(position.X + i * emptyCell.Width, position.Y + j * emptyCell.Height), Color.Red);
                     }
