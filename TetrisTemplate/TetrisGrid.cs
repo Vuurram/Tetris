@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq.Expressions;
+using Tetris;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
@@ -19,6 +22,7 @@ class TetrisGrid
    
     /// The number of grid elements in the y-direction.
     public int Height { get { return 20; } }
+    TetrisBlock TetrisBlock;
 
     /// <summary>
     /// Creates a new TetrisGrid.
@@ -27,7 +31,7 @@ class TetrisGrid
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
-        position = Vector2.Zero;
+        position = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
         Clear();
     }
 
