@@ -20,6 +20,7 @@ class TetrisGrid
     /// The number of grid elements in the y-direction.
     public int Height { get { return 20; } }
 
+    
     /// <summary>
     /// Creates a new TetrisGrid.
     /// </summary>
@@ -38,19 +39,23 @@ class TetrisGrid
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
-        grid = new int[10, 20];
+        grid = new int[Width, Height];
         Vector2 cellPosition = new Vector2(0,0);
         for (int i = 0; i < grid.GetLength(1); i++)
         {      
             for (int j = 0; j < grid.GetLength(0); j++)
             {
                 spriteBatch.Draw(emptyCell, cellPosition, Color.White);
+                if (i == 4)
+                {
+                    spriteBatch.Draw(emptyCell, cellPosition, Color.Red);
+                }
                 cellPosition.X += emptyCell.Width;
             }
             cellPosition.X = 0;
             cellPosition.Y += emptyCell.Height;
-
         }
+        
     }
 
     /// <summary>
