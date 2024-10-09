@@ -51,7 +51,7 @@ class GameWorld
 
         grid = new TetrisGrid();
 
-        currentTetrisBlock =  new TetrisBlock(TetrisBlock.TetrisBlocks.J);
+        currentTetrisBlock =  new TetrisBlock(RandomBlockShape());
 
     }
 
@@ -65,6 +65,11 @@ class GameWorld
 
     public void Update(GameTime gameTime)
     {
+    }
+
+    public TetrisBlock.TetrisBlocks RandomBlockShape()
+    {
+        return (TetrisBlock.TetrisBlocks)random.Next(0, 7);
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

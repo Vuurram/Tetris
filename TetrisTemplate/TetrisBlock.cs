@@ -21,8 +21,8 @@ namespace Tetris
         {
             Blocks = blocks;
             blockShape = GetBlockShape(blocks);
-            position = Vector2.Zero;
             emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
+            position = Vector2.Zero;
 
         }
 

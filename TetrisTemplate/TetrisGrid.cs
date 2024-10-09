@@ -45,7 +45,7 @@ class TetrisGrid
     {
         grid = new int[10, 20];
         for (int i = 0; i < grid.GetLength(0); i++)
-        {      
+        {
             for (int j = 0; j < grid.GetLength(1); j++)
             {
                 spriteBatch.Draw(emptyCell, new Vector2(position.X + i * emptyCell.Width, position.Y + j * emptyCell.Height), Color.White);
@@ -54,10 +54,10 @@ class TetrisGrid
         }
     }
 
-    /// <summary>
-    /// Clears the grid.
-    /// </summary>
-    public void Clear()
+        /// <summary>
+        /// Clears the grid.
+        /// </summary>
+        public void Clear()
     {
     }
 }
