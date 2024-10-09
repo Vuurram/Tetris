@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq.Expressions;
+using Tetris;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
@@ -12,13 +15,14 @@ class TetrisGrid
     /// The position at which this TetrisGrid should be drawn.
     Vector2 position;
 
-    int[,] grid;
+    int[,] grid; 
 
     /// The number of grid elements in the x-direction.
     public int Width { get { return 10; } }
    
     /// The number of grid elements in the y-direction.
     public int Height { get { return 20; } }
+    TetrisBlock TetrisBlock;
 
     
     /// <summary>
@@ -28,7 +32,7 @@ class TetrisGrid
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
-        position = Vector2.Zero;
+        position = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
         Clear();
     }
 
@@ -39,23 +43,19 @@ class TetrisGrid
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
-        grid = new int[Width, Height];
+        grid = new int[10, 20];
         Vector2 cellPosition = new Vector2(0,0);
         for (int i = 0; i < grid.GetLength(1); i++)
         {      
             for (int j = 0; j < grid.GetLength(0); j++)
             {
                 spriteBatch.Draw(emptyCell, cellPosition, Color.White);
-                if (i == 4)
-                {
-                    spriteBatch.Draw(emptyCell, cellPosition, Color.Red);
-                }
                 cellPosition.X += emptyCell.Width;
             }
             cellPosition.X = 0;
             cellPosition.Y += emptyCell.Height;
+
         }
-        
     }
 
     /// <summary>
