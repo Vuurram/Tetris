@@ -12,7 +12,7 @@ class TetrisGrid
     /// The position at which this TetrisGrid should be drawn.
     Vector2 position;
 
-    int[,] grid;
+    int[,] grid; 
 
     /// The number of grid elements in the x-direction.
     public int Width { get { return 10; } }
@@ -38,17 +38,13 @@ class TetrisGrid
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
-        grid = new int[10, 20];
-        Vector2 cellPosition = new Vector2(0,0);
-        for (int i = 0; i < grid.GetLength(1); i++)
-        {      
-            for (int j = 0; j < grid.GetLength(0); j++)
+        grid = new int[Width, Height];
+        for (int i = 0; i < grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < grid.GetLength(1); j++)
             {
-                spriteBatch.Draw(emptyCell, cellPosition, Color.White);
-                cellPosition.X += emptyCell.Width;
+                spriteBatch.Draw(emptyCell, new Vector2(position.X + i * emptyCell.Width, position.Y + j * emptyCell.Height), Color.White);
             }
-            cellPosition.X = 0;
-            cellPosition.Y += emptyCell.Height;
 
         }
     }
