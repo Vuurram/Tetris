@@ -32,7 +32,8 @@ class TetrisGrid
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
-        position = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
+        gridPosition = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
+        grid = new int[Width, Height];
         Clear();
     }
 
@@ -41,14 +42,19 @@ class TetrisGrid
     /// </summary>
     /// <param name="gameTime">An object with information about the time that has passed in the game.</param>
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
-    public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+    public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 gridPosition, Vector2 currentPosition)
     {
         grid = new int[10, 20];
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             for (int j = 0; j < grid.GetLength(1); j++)
             {
-                spriteBatch.Draw(emptyCell, new Vector2(position.X + i * emptyCell.Width, position.Y + j * emptyCell.Height), Color.White);
+                Vector2 drawPosition = new Vector2(
+                    gridPosition.X + (currentPosition.X + i) * emptyCell.Width,  // i is de kolom
+                    gridPosition.Y + (currentPosition.Y + j) * emptyCell.Height  // j is de rij
+                );
+
+                spriteBatch.Draw(emptyCell, drawPosition, Color.Red);
 
             }
         }
