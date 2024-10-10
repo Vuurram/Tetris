@@ -41,31 +41,70 @@ class GameWorld
     TetrisGrid grid;
 
     TetrisBlock currentTetrisBlock;
+    private Vector2 currentPosition;
+
+    private float shiftSpeed = 1.0f;
+    private float delta;
 
     public GameWorld()
     {
         random = new Random();
         gameState = GameState.Playing;
-
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
 
         grid = new TetrisGrid();
+        currentPosition = new Vector2(4, 0);
+        currentTetrisBlock = new TetrisBlock(RandomBlockShape());
 
-        currentTetrisBlock =  new TetrisBlock(RandomBlockShape());
-
+        
     }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
         if(inputHelper.KeyPressed(Keys.Up) == true)
         {
-            currentTetrisBlock.RotateBlocks();
+            
+                currentTetrisBlock.RotateBlocks();
+            
+        }
+
+        if (inputHelper.KeyPressed(Keys.Down) == true)
+        {
+
+            currentPosition.Y -= 1;
+
+        }
+
+        if (inputHelper.KeyPressed(Keys.Right) == true) 
+        {
+            
+                currentPosition.X += 1;
+            
+        }
+
+        if (inputHelper.KeyPressed(Keys.Left) == true)
+        {
+           
+                currentPosition.X -= 1;
+            
         }
     }
 
+
+
     public void Update(GameTime gameTime)
     {
+        delta += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (delta >= shiftSpeed)
+        {
+            delta = 0.0f;
+            currentPosition.Y += 1;
+
+        }
     }
+
+  
 
     public TetrisBlock.TetrisBlocks RandomBlockShape()
     {
@@ -76,13 +115,15 @@ class GameWorld
     {
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch);
-        currentTetrisBlock.Draw(gameTime, spriteBatch);
+        currentTetrisBlock.Draw(gameTime, spriteBatch, grid.GridPosition, currentPosition);
         //spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
         spriteBatch.End();
     }
 
     public void Reset()
     {
+        currentPosition = new Vector2(4, 0);
+        currentTetrisBlock = new TetrisBlock(RandomBlockShape());
     }
 
 }

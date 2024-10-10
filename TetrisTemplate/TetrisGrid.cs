@@ -13,7 +13,7 @@ class TetrisGrid
     Texture2D emptyCell;
 
     /// The position at which this TetrisGrid should be drawn.
-    Vector2 position;
+    Vector2 gridPosition;
 
     int[,] grid; 
 
@@ -22,6 +22,8 @@ class TetrisGrid
    
     /// The number of grid elements in the y-direction.
     public int Height { get { return 20; } }
+
+    public Vector2 GridPosition { get { return gridPosition; } }
     TetrisBlock TetrisBlock;
 
     
@@ -37,24 +39,21 @@ class TetrisGrid
         Clear();
     }
 
+  
+
     /// <summary>
     /// Draws the grid on the screen.
     /// </summary>
     /// <param name="gameTime">An object with information about the time that has passed in the game.</param>
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
-    public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 gridPosition, Vector2 currentPosition)
+    public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
-        grid = new int[10, 20];
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             for (int j = 0; j < grid.GetLength(1); j++)
             {
-                Vector2 drawPosition = new Vector2(
-                    gridPosition.X + (currentPosition.X + i) * emptyCell.Width,  // i is de kolom
-                    gridPosition.Y + (currentPosition.Y + j) * emptyCell.Height  // j is de rij
-                );
+                spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), Color.White);
 
-                spriteBatch.Draw(emptyCell, drawPosition, Color.Red);
 
             }
         }
@@ -65,6 +64,7 @@ class TetrisGrid
         /// </summary>
         public void Clear()
     {
+        grid = new int[Width, Height];
     }
 }
 

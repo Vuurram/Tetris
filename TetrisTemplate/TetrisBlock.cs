@@ -13,8 +13,8 @@ namespace Tetris
         }
         public int[,] blockShape { get; set; }
         public TetrisBlocks Blocks { get; private set; }
-        public Vector2 position;
         Texture2D emptyCell;
+
 
 
         public TetrisBlock(TetrisBlocks blocks)
@@ -22,7 +22,6 @@ namespace Tetris
             Blocks = blocks;
             blockShape = GetBlockShape(blocks);
             emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
-            position = Vector2.Zero;
 
         }
 
@@ -104,15 +103,15 @@ namespace Tetris
             blockShape = rotatedBlockShape;
         }
 
-        public void Draw(GameTime gametime, SpriteBatch spriteBatch)
+        public void Draw(GameTime gametime, SpriteBatch spriteBatch, Vector2 gridPosition, Vector2 currentPosition)
         {
             for (int i = 0; i < blockShape.GetLength(0); i++)
             {
                 for (int j = 0; j < blockShape.GetLength(1); j++)
                 {
                     if (blockShape[i, j] == 1)
-                    {
-                        spriteBatch.Draw(emptyCell, new Vector2(position.X + i * emptyCell.Width, position.Y + j * emptyCell.Height), Color.Red);
+                    {                       
+                        spriteBatch.Draw(emptyCell ,new Vector2(gridPosition.X + (currentPosition.X + i) * emptyCell.Width, gridPosition.Y + (currentPosition.Y + j) * emptyCell.Height), Color.Red);
                     }
                 }
             }

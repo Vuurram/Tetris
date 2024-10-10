@@ -63,6 +63,7 @@ class TetrisGame : Game
         inputHelper.Update(gameTime);
         gameWorld.HandleInput(gameTime, inputHelper);
         gameWorld.Update(gameTime);
+        base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
