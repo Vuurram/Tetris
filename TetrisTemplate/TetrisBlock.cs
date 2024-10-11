@@ -15,14 +15,14 @@ namespace Tetris
         public TetrisBlocks Blocks { get; private set; }
         Texture2D emptyCell;
 
-
+        Color color;
 
         public TetrisBlock(TetrisBlocks blocks)
         {
             Blocks = blocks;
             blockShape = GetBlockShape(blocks);
             emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
-
+            color = new Color(0, 0, 0);
         }
 
         private int[,] GetBlockShape(TetrisBlocks blocks)
@@ -101,6 +101,8 @@ namespace Tetris
                 }
             }
             blockShape = rotatedBlockShape;
+
+         
         }
 
         public void Draw(GameTime gametime, SpriteBatch spriteBatch, Vector2 gridPosition, Vector2 currentPosition)

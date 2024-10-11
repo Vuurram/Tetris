@@ -10,12 +10,12 @@ using Tetris;
 class TetrisGrid
 {
     /// The sprite of a single empty cell in the grid.
-    Texture2D emptyCell;
+    public Texture2D emptyCell;
 
     /// The position at which this TetrisGrid should be drawn.
     Vector2 gridPosition;
 
-    int[,] grid; 
+    public int[,] grid; 
 
     /// The number of grid elements in the x-direction.
     public int Width { get { return 10; } }
@@ -46,7 +46,7 @@ class TetrisGrid
     /// </summary>
     /// <param name="gameTime">An object with information about the time that has passed in the game.</param>
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
-    public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+    public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 currentPosition)
     {
         for (int i = 0; i < grid.GetLength(0); i++)
         {
@@ -54,6 +54,10 @@ class TetrisGrid
             {
                 spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), Color.White);
 
+                if (grid[i, j] == 1)
+                {
+                    spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), Color.Red);
+                }
 
             }
         }
