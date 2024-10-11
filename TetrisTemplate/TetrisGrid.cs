@@ -26,6 +26,8 @@ class TetrisGrid
     public Vector2 GridPosition { get { return gridPosition; } }
     TetrisBlock TetrisBlock;
 
+    public Color[,] gridColors;
+
     
     /// <summary>
     /// Creates a new TetrisGrid.
@@ -36,6 +38,7 @@ class TetrisGrid
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         gridPosition = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
         grid = new int[Width, Height];
+        gridColors = new Color[Width, Height];
         Clear();
     }
 
@@ -46,19 +49,20 @@ class TetrisGrid
     /// </summary>
     /// <param name="gameTime">An object with information about the time that has passed in the game.</param>
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
-    public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 currentPosition)
+    public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 currentPosition, TetrisBlock currentBlock)
     {
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             for (int j = 0; j < grid.GetLength(1); j++)
             {
-                spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), Color.White);
-
                 if (grid[i, j] == 1)
                 {
-                    spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), TetrisBlock.blockColor);
+                    spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), gridColors[i, j]);
                 }
-
+                else
+                {
+                    spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), Color.White);
+                }
             }
         }
     }
@@ -69,6 +73,7 @@ class TetrisGrid
         public void Clear()
     {
         grid = new int[Width, Height];
+        gridColors = new Color[Width, Height];
     }
 }
 

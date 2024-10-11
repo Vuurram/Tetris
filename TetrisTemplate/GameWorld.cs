@@ -151,6 +151,7 @@ class GameWorld
 
                 
                     grid.grid[gridX, gridY] = 1;
+                    grid.gridColors[gridX, gridY] = currenTetrisBlock.blockColor;
                 
                     
                     //try
@@ -195,7 +196,7 @@ class GameWorld
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         spriteBatch.Begin();
-        grid.Draw(gameTime, spriteBatch, currentPosition);
+        grid.Draw(gameTime, spriteBatch, currentPosition, currentTetrisBlock);
         currentTetrisBlock.Draw(gameTime, spriteBatch, grid.GridPosition, currentPosition);
         nextTetrisBlock.Draw(gameTime, spriteBatch, Vector2.Zero, Vector2.Zero);
         //spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
