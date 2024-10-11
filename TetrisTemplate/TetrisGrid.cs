@@ -56,7 +56,7 @@ class TetrisGrid
 
                 if (grid[i, j] == 1)
                 {
-                    spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), Color.Red);
+                    spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), TetrisBlock.blockColor);
                 }
 
             }

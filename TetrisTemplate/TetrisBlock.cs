@@ -12,20 +12,45 @@ namespace Tetris
             L, J, O, I, S, Z, T
         }
         public int[,] blockShape { get; set; }
+        public Color blockColor { get; set; }
         public TetrisBlocks Blocks { get; private set; }
         Texture2D emptyCell;
 
-        Color color;
+
 
         public TetrisBlock(TetrisBlocks blocks)
         {
             Blocks = blocks;
             blockShape = GetBlockShape(blocks);
+            blockColor = GetBlockColor(blocks);
             emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
-            color = new Color(0, 0, 0);
+
         }
 
-        private int[,] GetBlockShape(TetrisBlocks blocks)
+        private Color GetBlockColor(TetrisBlocks blocks)
+        {
+            switch (blocks)
+            {
+                case TetrisBlocks.L:
+                    return Color.Red;
+                case TetrisBlocks.J:
+                    return Color.Yellow;
+                case TetrisBlocks.O:
+                    return Color.Green;
+                case TetrisBlocks.I:
+                    return Color.Blue;
+                case TetrisBlocks.S:
+                    return Color.Purple;
+                case TetrisBlocks.Z:
+                    return Color.Pink;
+                case TetrisBlocks.T:
+                    return Color.Silver;
+                default:
+                    return Color.White;
+            }
+        }
+
+            private int[,] GetBlockShape(TetrisBlocks blocks)
         {
             switch (blocks)
             {
@@ -86,6 +111,8 @@ namespace Tetris
                     return new int[4, 4];
             }
         }
+
+
 
         public void RotateBlocks()
         {
