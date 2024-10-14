@@ -123,12 +123,12 @@ class GameWorld
         {
             for (int j = 0; j < currentTetrisBlock.blockShape.GetLength(1); j++)
             {
-                if (currentTetrisBlock.blockShape[i, j] == 1)
+                if (currentTetrisBlock.blockShape[i, j] != 0)
                 {
                     int gridX = (int)currentPosition.X + newX + i;
                     int gridY = (int)currentPosition.Y + newY + j;
 
-                    if ((gridX < 0) || (gridX >= grid.Width) || (gridY >= grid.Height) || (grid.grid[gridX, gridY] == 1))
+                    if ((gridX < 0) || (gridX >= grid.Width) || (gridY >= grid.Height) || (grid.grid[gridX, gridY] != 0))
                     {
                         return false;
                     }
@@ -144,14 +144,13 @@ class GameWorld
         {
             for (int j = 0; j < currentTetrisBlock.blockShape.GetLength(1); j++)
             {
-                if (currentTetrisBlock.blockShape[i, j] == 1)
+                if (currentTetrisBlock.blockShape[i, j] != 0)
                 {
                     int gridX = (int)currentPosition.X + i;
                     int gridY = (int)currentPosition.Y + j;
 
                 
-                    grid.grid[gridX, gridY] = 1;
-                    grid.gridColors[gridX, gridY] = currenTetrisBlock.blockColor;
+                    grid.grid[gridX, gridY] = (int)currentTetrisBlock.blockShape[i, j];
                 
                     
                     //try

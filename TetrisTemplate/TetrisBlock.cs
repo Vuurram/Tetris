@@ -16,7 +16,8 @@ namespace Tetris
         public Color blockColor { get; set; }
         public TetrisBlocks Blocks { get; private set; }
         Texture2D emptyCell;
-
+        public int ColorID;
+        TetrisGrid tetrisGrid;
 
 
         public TetrisBlock(TetrisBlocks blocks)
@@ -24,7 +25,7 @@ namespace Tetris
             Blocks = blocks;
             blockShape = GetBlockShape(blocks);
             emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
-
+            tetrisGrid = new TetrisGrid();
         }
 
         public Color GetBlockColor()
@@ -57,38 +58,38 @@ namespace Tetris
                 case TetrisBlocks.J:
                     return new int[,]
                     {
-                        {1 ,0 ,0},
-                        {1, 1, 1},
+                        {2 ,0 ,0},
+                        {2, 2, 2},
                         {0, 0, 0}
 
                     };
                 case TetrisBlocks.O:
                     return new int[,]
                     {
-                        {1, 1},
-                        {1, 1}
+                        {3, 3},
+                        {3, 3}
                     };
                 case TetrisBlocks.I:
                     return new int[,]
                     {
-                        {0 ,1, 0, 0},
-                        {0, 1, 0, 0},
-                        {0, 1, 0, 0},
-                        {0, 1, 0, 0}
+                        {0 ,4, 0, 0},
+                        {0, 4, 0, 0},
+                        {0, 4, 0, 0},
+                        {0, 4, 0, 0}
 
                     };
                 case TetrisBlocks.S:
                     return new int[,]
                     {
-                        {0, 1, 1},
-                        {1, 1, 0},
-                        {0, 0, 0 }
+                        {0, 5, 5},
+                        {5, 5, 0},
+                        {0, 0, 0}
                     };
                 case TetrisBlocks.Z:
                     return new int[,]
                     {
-                        {1 ,1 ,0},
-                        {0, 1, 1 },
+                        {6 ,6 ,0},
+                        {0, 6, 6 },
                         {0, 0, 0 }
 
                     };
@@ -96,8 +97,8 @@ namespace Tetris
                     return new int[,]
                     {
                         {0, 0, 0},
-                        {1, 1, 1},
-                        {0, 1, 0}
+                        {7, 7, 7},
+                        {0, 7, 0}
                     };
                 default:
                     return new int[4, 4];
@@ -130,14 +131,13 @@ namespace Tetris
             {
                 for (int j = 0; j < blockShape.GetLength(1); j++)
                 {
-                    if (blockShape[i, j] == 1)
-                    {                       
-                        spriteBatch.Draw(emptyCell ,new Vector2(gridPosition.X + (currentPosition.X + i) * emptyCell.Width, gridPosition.Y + (currentPosition.Y + j) * emptyCell.Height), blockColor);
+                    if (blockShape[i, j] != 0)
+                    {
+                        Color color = tetrisGrid.GetColor(blockShape[i, j]);
+                        spriteBatch.Draw(emptyCell ,new Vector2(gridPosition.X + (currentPosition.X + i) * emptyCell.Width, gridPosition.Y + (currentPosition.Y + j) * emptyCell.Height), color);
                     }
                 }
             }
-
-
         }
     }
 }
