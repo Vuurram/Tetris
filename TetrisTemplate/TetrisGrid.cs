@@ -17,17 +17,17 @@ class TetrisGrid
     /// The position at which this TetrisGrid should be drawn.
     Vector2 gridPosition;
 
-    public int[,] grid; 
+    public int[,] grid;
 
     /// The number of grid elements in the x-direction.
     public int Width { get { return 10; } }
-   
+
     /// The number of grid elements in the y-direction.
     public int Height { get { return 20; } }
 
     public Vector2 GridPosition { get { return gridPosition; } }
     TetrisBlock TetrisBlock;
-    int score = 0;
+    public int score { get; set; }
     SpriteFont font;
 
     

@@ -4,6 +4,7 @@ using System;
 using Tetris;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using static System.Formats.Asn1.AsnWriter;
 
 /// <summary>
 /// A class for representing the game world.
@@ -24,9 +25,9 @@ class GameWorld
     /// <summary>
     /// The random-number generator of the game.
     /// </summary>
+    int level = 1;
     public static Random Random { get { return random; } }
     static Random random;
-
     /// <summary>
     /// The main font of the game.
     /// </summary>
@@ -156,12 +157,12 @@ class GameWorld
     }
     public void Update(GameTime gameTime)
     {
-        delta += (float)gameTime.ElapsedGameTime.TotalSeconds;
         timer--;
+        delta += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (delta >= shiftSpeed)
+        if (grid.score >= 4000 * level) level++;
+        if (delta >= shiftSpeed - (float)level * 0.2f)
         {
-
             delta = 0.0f;
 
             if (!IsShiftPossible(0, 1))
@@ -186,6 +187,12 @@ class GameWorld
         grid.Draw(gameTime, spriteBatch, currentPosition, currentTetrisBlock);
         currentTetrisBlock.Draw(gameTime, spriteBatch, grid.GridPosition, currentPosition);
         nextTetrisBlock.Draw(gameTime, spriteBatch, Vector2.Zero, Vector2.Zero);
+
+        int textScale = 2;
+        string points = "The Level is: " + level.ToString();
+        Vector2 textSize = font.MeasureString(points);
+        Vector2 textPosition = new Vector2((1920 - textSize.X * textScale) / 2, (1000 - textSize.Y * textScale));
+        spriteBatch.DrawString(font, points, textPosition, Color.Black, 0, Vector2.Zero, textScale, SpriteEffects.None, 0);
         spriteBatch.End();
     }
 
@@ -203,11 +210,10 @@ class GameWorld
                     int gridX = (int)currentPosition.X + i;
                     int gridY = (int)currentPosition.Y + j;
 
-                    // If the grid position is already filled, it's game over
                     if (grid.grid[gridX, gridY] != 0)
                     {
                         gameState = GameState.GameOver;
-                        return; // Exit function early if game over
+                        return;
                     }
                 }
             }
