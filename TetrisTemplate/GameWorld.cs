@@ -35,7 +35,7 @@ class GameWorld
     /// <summary>
     /// The current game state.
     /// </summary>
-    GameState gameState;
+    GameState gameState = GameState.Playing;
 
     /// <summary>
     /// The main grid of the game.
@@ -80,13 +80,13 @@ class GameWorld
 
         if ((inputHelper.KeyDown(Keys.Right)) && (IsShiftPossible(1, 0)) && (timer <= 0)) 
         {
-            timer = 6;
+            timer = 8;
             currentPosition.X++;          
         }
 
         if ((inputHelper.KeyDown(Keys.Left)) && (IsShiftPossible(-1, 0)) && (timer <= 0))
         {
-            timer = 6;
+            timer = 8;
             currentPosition.X--;           
         }
     }
@@ -149,19 +149,8 @@ class GameWorld
                     int gridX = (int)currentPosition.X + i;
                     int gridY = (int)currentPosition.Y + j;
 
-                
-                    grid.grid[gridX, gridY] = (int)currentTetrisBlock.blockShape[i, j];
-                
-                    
-                    //try
-                    //{
-                    //    grid.grid[gridX, gridY] = 1;
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //    Debug.WriteLine($"{gridX} | {gridY}");
-                    //}
-                }
+                    grid.grid[gridX, gridY] = currentTetrisBlock.blockShape[i, j];
+                } 
             }
         }
     }
@@ -180,9 +169,7 @@ class GameWorld
                 LockBlock(currentTetrisBlock, currentPosition);
                 Reset();
             }
-            currentPosition.Y++;
-
-            
+            currentPosition.Y++; 
         }
     }
   
@@ -194,11 +181,11 @@ class GameWorld
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
+        if (gameState == GameState.GameOver) return;
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch, currentPosition, currentTetrisBlock);
         currentTetrisBlock.Draw(gameTime, spriteBatch, grid.GridPosition, currentPosition);
         nextTetrisBlock.Draw(gameTime, spriteBatch, Vector2.Zero, Vector2.Zero);
-        //spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
         spriteBatch.End();
     }
 
@@ -207,5 +194,23 @@ class GameWorld
         currentPosition = new Vector2(4, 0);
         currentTetrisBlock = nextTetrisBlock;
         nextTetrisBlock = new TetrisBlock(RandomBlockShape());
+        for (int i = 0; i < currentTetrisBlock.blockShape.GetLength(0); i++)
+        {
+            for (int j = 0; j < currentTetrisBlock.blockShape.GetLength(1); j++)
+            {
+                if (currentTetrisBlock.blockShape[i, j] != 0)
+                {
+                    int gridX = (int)currentPosition.X + i;
+                    int gridY = (int)currentPosition.Y + j;
+
+                    // If the grid position is already filled, it's game over
+                    if (grid.grid[gridX, gridY] != 0)
+                    {
+                        gameState = GameState.GameOver;
+                        return; // Exit function early if game over
+                    }
+                }
+            }
+        }
     }
 }

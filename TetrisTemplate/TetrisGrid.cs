@@ -44,31 +44,6 @@ class TetrisGrid
         Clear();
     }
 
-
-
-    /// <summary>
-    /// Draws the grid on the screen.
-    /// </summary>
-    /// <param name="gameTime">An object with information about the time that has passed in the game.</param>
-    /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
-    //public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 currentPosition, TetrisBlock currentBlock)
-    //{
-    //    for (int i = 0; i < grid.GetLength(0); i++)
-    //    {
-    //        for (int j = 0; j < grid.GetLength(1); j++)
-    //        {
-    //            if (grid[i, j] == 1)
-    //            {
-    //                spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), gridColors[i, j]);
-    //            }
-    //            else
-    //            {
-    //                spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), Color.White);
-    //            }
-    //        }
-    //    }
-    //}
-
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 currentPosition, TetrisBlock currentBlock)
     {
         for (int i = 0; i < grid.GetLength(0); i++)
@@ -142,7 +117,7 @@ class TetrisGrid
 
     void Score(int rowsFull)
     {
-        score += Math.Max(0, rowsFull / 2) * 2000 + rowsFull * 1000;
+        score += Math.Max(0, rowsFull - 1) * 1000 + rowsFull * 1000;
     }
 
     public void Clear()

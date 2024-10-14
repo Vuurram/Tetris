@@ -13,7 +13,6 @@ namespace Tetris
             L, J, O, I, S, Z, T
         }
         public int[,] blockShape { get; set; }
-        public Color blockColor { get; set; }
         public TetrisBlocks Blocks { get; private set; }
         Texture2D emptyCell;
         public int ColorID;
@@ -28,84 +27,20 @@ namespace Tetris
             tetrisGrid = new TetrisGrid();
         }
 
-        public Color GetBlockColor()
-        {
-            switch (Blocks)
-            {
-                case TetrisBlocks.L: return Color.Red;
-                case TetrisBlocks.J: return Color.Yellow;
-                case TetrisBlocks.O: return Color.Green;
-                case TetrisBlocks.I: return Color.Blue;
-                case TetrisBlocks.S: return Color.Purple;
-                case TetrisBlocks.Z: return Color.Pink;
-                case TetrisBlocks.T: return Color.Silver;
-                default: return Color.White;
-            }
-        }
-
-            private int[,] GetBlockShape(TetrisBlocks blocks)
+        private int[,] GetBlockShape(TetrisBlocks blocks)
         {
             switch (blocks)
             {
-                case TetrisBlocks.L:
-                    return new int[,]
-                    {
-                        {0 ,0 ,1 },
-                        {1, 1, 1 },
-                        {0, 0, 0 }
-
-                    };
-                case TetrisBlocks.J:
-                    return new int[,]
-                    {
-                        {2 ,0 ,0},
-                        {2, 2, 2},
-                        {0, 0, 0}
-
-                    };
-                case TetrisBlocks.O:
-                    return new int[,]
-                    {
-                        {3, 3},
-                        {3, 3}
-                    };
-                case TetrisBlocks.I:
-                    return new int[,]
-                    {
-                        {0 ,4, 0, 0},
-                        {0, 4, 0, 0},
-                        {0, 4, 0, 0},
-                        {0, 4, 0, 0}
-
-                    };
-                case TetrisBlocks.S:
-                    return new int[,]
-                    {
-                        {0, 5, 5},
-                        {5, 5, 0},
-                        {0, 0, 0}
-                    };
-                case TetrisBlocks.Z:
-                    return new int[,]
-                    {
-                        {6 ,6 ,0},
-                        {0, 6, 6 },
-                        {0, 0, 0 }
-
-                    };
-                case TetrisBlocks.T:
-                    return new int[,]
-                    {
-                        {0, 0, 0},
-                        {7, 7, 7},
-                        {0, 7, 0}
-                    };
-                default:
-                    return new int[4, 4];
+                case TetrisBlocks.L: return new int[,] {{0, 0, 1}, {1, 1, 1}, {0, 0, 0}};
+                case TetrisBlocks.J: return new int[,] {{2, 0, 0}, {2, 2, 2}, {0, 0, 0}};
+                case TetrisBlocks.O: return new int[,] {{3, 3},{3, 3}};
+                case TetrisBlocks.I: return new int[,] {{0, 4, 0, 0}, {0, 4, 0, 0}, {0, 4, 0, 0}, {0, 4, 0, 0}};
+                case TetrisBlocks.S: return new int[,] {{0, 5, 5}, {5, 5, 0}, {0, 0, 0}};
+                case TetrisBlocks.Z: return new int[,] {{6, 6, 0}, {0, 6, 6 }, {0, 0, 0 }};
+                case TetrisBlocks.T: return new int[,] {{0, 0, 0}, {7, 7, 7}, {0, 7, 0}};
+                default: return new int[4, 4];
             }
         }
-
-
 
         public void RotateBlocks()
         {
@@ -121,12 +56,10 @@ namespace Tetris
                 }
             }
             blockShape = rotatedBlockShape;
-         
         }
 
         public void Draw(GameTime gametime, SpriteBatch spriteBatch, Vector2 gridPosition, Vector2 currentPosition)
         {
-            blockColor = GetBlockColor();
             for (int i = 0; i < blockShape.GetLength(0); i++)
             {
                 for (int j = 0; j < blockShape.GetLength(1); j++)
