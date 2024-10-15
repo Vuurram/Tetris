@@ -22,10 +22,11 @@ class GameWorld
     }
 
 
+    int level = 1;
+
     /// <summary>
     /// The random-number generator of the game.
     /// </summary>
-    int level = 1;
     public static Random Random { get { return random; } }
     static Random random;
     /// <summary>
@@ -162,7 +163,7 @@ class GameWorld
         delta += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if (grid.score >= 4000 * level) level++;
-        if (delta >= shiftSpeed - (float)level * 0.1f)
+        if (delta >= shiftSpeed - Math.Pow(level, 0.6f) * 0.1f)
         {
             delta = 0.0f;
 
