@@ -32,7 +32,7 @@ class GameWorld
     /// The main font of the game.
     /// </summary>
     SpriteFont font;
-
+    Texture2D background;
     /// <summary>
     /// The current game state.
     /// </summary>
@@ -56,6 +56,7 @@ class GameWorld
         random = new Random();
         gameState = GameState.Playing;
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
+        background = TetrisGame.ContentManager.Load<Texture2D>("Background/TetrisBackground3");
 
         grid = new TetrisGrid();
         currentPosition = new Vector2(4, 0);
@@ -161,7 +162,7 @@ class GameWorld
         delta += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if (grid.score >= 4000 * level) level++;
-        if (delta >= shiftSpeed - (float)level * 0.2f)
+        if (delta >= shiftSpeed - (float)level * 0.1f)
         {
             delta = 0.0f;
 
@@ -184,6 +185,7 @@ class GameWorld
     {
         if (gameState == GameState.GameOver) return;
         spriteBatch.Begin();
+        spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1080), Color.White);
         grid.Draw(gameTime, spriteBatch, currentPosition, currentTetrisBlock);
         currentTetrisBlock.Draw(gameTime, spriteBatch, grid.GridPosition, currentPosition);
         nextTetrisBlock.Draw(gameTime, spriteBatch, Vector2.Zero, Vector2.Zero);
@@ -191,8 +193,8 @@ class GameWorld
         int textScale = 2;
         string points = "The Level is: " + level.ToString();
         Vector2 textSize = font.MeasureString(points);
-        Vector2 textPosition = new Vector2((1920 - textSize.X * textScale) / 2, (1000 - textSize.Y * textScale));
-        spriteBatch.DrawString(font, points, textPosition, Color.Black, 0, Vector2.Zero, textScale, SpriteEffects.None, 0);
+        Vector2 textPosition = new Vector2((300 - textSize.X * textScale) / 2, (300 - textSize.Y * textScale));
+        spriteBatch.DrawString(font, points, textPosition, Color.White, 0, Vector2.Zero, textScale, SpriteEffects.None, 0);
         spriteBatch.End();
     }
 

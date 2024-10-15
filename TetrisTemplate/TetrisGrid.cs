@@ -37,7 +37,7 @@ class TetrisGrid
     /// <param name="b"></param>
     public TetrisGrid()
     {
-        emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
+        emptyCell = TetrisGame.ContentManager.Load<Texture2D>("TetrisBlock");
         gridPosition = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
         grid = new int[Width, Height];
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
@@ -58,8 +58,8 @@ class TetrisGrid
         int textScale = 2;
         string points = "The score is: " + score.ToString();
         Vector2 textSize = font.MeasureString(points);
-        Vector2 textPosition = new Vector2((1920 - textSize.X * textScale) / 2, (900 - textSize.Y * textScale));
-        spriteBatch.DrawString(font, points, textPosition, Color.Black, 0, Vector2.Zero, textScale, SpriteEffects.None, 0);
+        Vector2 textPosition = new Vector2((300 - textSize.X * textScale) / 2, (250 - textSize.Y * textScale));
+        spriteBatch.DrawString(font, points, textPosition, Color.White, 0, Vector2.Zero, textScale, SpriteEffects.None, 0);
     }
 
     public Color GetColor(int gridValue)

@@ -23,7 +23,7 @@ namespace Tetris
         {
             Blocks = blocks;
             blockShape = GetBlockShape(blocks);
-            emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
+            emptyCell = TetrisGame.ContentManager.Load<Texture2D>("TetrisBlock");
             tetrisGrid = new TetrisGrid();
         }
 
