@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Tetris;
 using Microsoft.Xna.Framework.Input;
+
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+
 
 /// <summary>
 /// A class for representing the game world.
@@ -76,7 +78,10 @@ class GameWorld
         {   
             currentTetrisBlock.RotateBlocks();
             SetPositionCorrect();
+            IsRotationPossible();
+            SetPositionCorrect();
         }
+
 
         if (inputHelper.KeyPressed(Keys.Space))
         {
@@ -110,7 +115,7 @@ class GameWorld
         int tetrisBlockHeight = currentTetrisBlock.blockShape.GetLength(1);
 
         if (currentPosition.X < 0)
-        { 
+        {
             currentPosition.X = 0;
         }
 
@@ -124,9 +129,28 @@ class GameWorld
             currentPosition.X = grid.Width - tetrisBlockWidth;
         }
 
-        if (currentPosition.X + tetrisBlockHeight > grid.Width)
+        if (currentPosition.Y + tetrisBlockHeight > grid.Height)
         {
-            currentPosition.X = grid.Width - tetrisBlockHeight;
+            currentPosition.Y = grid.Height - tetrisBlockHeight;
+        }
+
+        
+    }
+
+    public void IsRotationPossible()
+    {
+        for (int i = 0; i < currentTetrisBlock.blockShape.GetLength(0); i++)
+        {
+            for (int j = 0; j < currentTetrisBlock.blockShape.GetLength(1); j++)
+            {
+                int gridX = (int)currentPosition.X + i;
+                int gridY = (int)currentPosition.Y + j;
+
+                if ((grid.grid[gridX, gridY] != 0) && (currentTetrisBlock.blockShape[i, j] != 0))
+                {
+                    currentTetrisBlock.ReverseRotateBlocks();
+                }
+            }
         }
     }
 
@@ -174,8 +198,8 @@ class GameWorld
         timer--;
         delta += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (grid.score >= 4000 * level) level++;
-        if (delta >= shiftSpeed - Math.Pow(level, 0.6f) * 0.1f)
+        if (grid.score >= 1000 * level) level++;
+        if (delta >= shiftSpeed - Math.Pow(level, 0.7f) * 0.1f)
         {
             delta = 0.0f;
 

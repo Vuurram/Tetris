@@ -61,8 +61,6 @@ class TetrisGame : Game
         // create and reset the game world
         gameWorld = new GameWorld();
         gameWorld.Reset();
-
-      
     }
 
    
@@ -72,6 +70,7 @@ class TetrisGame : Game
         inputHelper.Update(gameTime);
         gameWorld.HandleInput(gameTime, inputHelper);
         gameWorld.Update(gameTime);
+        if(inputHelper.KeyPressed(Keys.Escape)) { Exit(); }
         base.Update(gameTime);
 
         
