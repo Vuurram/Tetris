@@ -124,10 +124,13 @@ class GameWorld
             currentPosition.X = grid.Width - tetrisBlockWidth;
         }
 
-        if (currentPosition.X + tetrisBlockHeight > grid.Width)
+        if (currentPosition.Y + tetrisBlockHeight > grid.Height)
         {
-            currentPosition.X = grid.Width - tetrisBlockHeight;
+            currentPosition.Y = grid.Height - tetrisBlockHeight;
         }
+
+        
+
     }
 
     public bool IsShiftPossible(int newX, int newY)
