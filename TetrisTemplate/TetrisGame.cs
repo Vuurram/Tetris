@@ -4,33 +4,30 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
-
 
 class TetrisGame : Game
 {
     SpriteBatch spriteBatch;
+
     InputHelper inputHelper;
+
     GameWorld gameWorld;
 
-    /// <summary>
-    /// A static reference to the ContentManager object, used for loading assets.
-    /// </summary>
+    // A static reference to the ContentManager object, used for loading assets.
     public static ContentManager ContentManager { get; private set; }
     
-
-    /// <summary>
-    /// A static reference to the width and height of the screen.
-    /// </summary>
+    // A static reference to the width and height of the screen.
     public static Point ScreenSize { get; private set; }
 
     [STAThread]
-    static void Main(string[] args)
+
+    static void Main()
     {
         TetrisGame game = new TetrisGame();
         game.Run();
     }
 
+    // constructor method
     public TetrisGame()
     {        
         // initialize the graphics device
@@ -51,7 +48,7 @@ class TetrisGame : Game
         inputHelper = new InputHelper();
     }
 
-   
+   // Mehod used to load all the content
     protected override void LoadContent()
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -62,9 +59,8 @@ class TetrisGame : Game
         gameWorld = new GameWorld();
         gameWorld.Reset();
     }
-
    
-
+    
     protected override void Update(GameTime gameTime)
     {
         inputHelper.Update(gameTime);
