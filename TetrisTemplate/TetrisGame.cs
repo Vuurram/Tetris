@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 
@@ -50,6 +51,7 @@ class TetrisGame : Game
         inputHelper = new InputHelper();
     }
 
+   
     protected override void LoadContent()
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -63,19 +65,16 @@ class TetrisGame : Game
       
     }
 
+   
+
     protected override void Update(GameTime gameTime)
     {
         inputHelper.Update(gameTime);
         gameWorld.HandleInput(gameTime, inputHelper);
         gameWorld.Update(gameTime);
-        if(inputHelper.KeyPressed(Microsoft.Xna.Framework.Input.Keys.Escape)) { Exit(); }
-
-
-
-
-
-            
         base.Update(gameTime);
+
+        
     }
 
     protected override void Draw(GameTime gameTime)
