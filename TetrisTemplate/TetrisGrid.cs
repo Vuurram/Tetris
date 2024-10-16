@@ -1,14 +1,9 @@
-﻿using Microsoft.VisualBasic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Linq.Expressions;
-using System.Reflection.Metadata;
 using Tetris;
 
-/// <summary>
 /// A class for representing the Tetris playing grid.
-/// </summary>
 class TetrisGrid
 {
     /// The sprite of a single empty cell in the grid.
@@ -17,34 +12,38 @@ class TetrisGrid
     /// The position at which this TetrisGrid should be drawn.
     Vector2 gridPosition;
 
+    // Creates a new tetris grid
     public int[,] grid;
 
-    /// The number of grid elements in the x-direction.
+    // The number of grid elements in the x-direction.
     public int Width { get { return 10; } }
 
-    /// The number of grid elements in the y-direction.
+    // The number of grid elements in the y-direction.
     public int Height { get { return 20; } }
 
+    // Creates a property for the gridPosition
     public Vector2 GridPosition { get { return gridPosition; } }
+
     TetrisBlock TetrisBlock;
+    
+    // Creates the property of the Score
     public int score { get; set; }
+
+    
     SpriteFont font;
 
     
-    /// <summary>
-    /// Creates a new TetrisGrid.
-    /// </summary>
-    /// <param name="b"></param>
+    // Constructor method 
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("TetrisBlock");
         gridPosition = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
         grid = new int[Width, Height];
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
-        
         Clear();
     }
 
+    // Method is used for drawing the grid and the current score
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 currentPosition, TetrisBlock currentBlock)
     {
         for (int i = 0; i < grid.GetLength(0); i++)
@@ -63,6 +62,7 @@ class TetrisGrid
         spriteBatch.DrawString(font, points, textPosition, Color.White, 0, Vector2.Zero, textScale, SpriteEffects.None, 0);
     }
 
+    // Method that returns the value of a color
     public Color GetColor(int gridValue)
     {
         switch (gridValue)
@@ -78,7 +78,8 @@ class TetrisGrid
         }
     }
 
-    void FullRow()
+    // Method that checks if a row is full
+    private void FullRow()
     {
         int rowsFull = 0;
         for (int y = grid.GetLength(1) - 1; y > 0; y--)
@@ -103,6 +104,7 @@ class TetrisGrid
         Score(rowsFull);
     }
 
+    // If this method is called all rows above the full row drop one postion
     void RowDropper(int y)
     {
         int min = y;
@@ -116,11 +118,13 @@ class TetrisGrid
         }  
     }
 
+    // Keeps count of the score
     void Score(int rowsFull)
     {
         score += Math.Max(0, rowsFull - 1) * 1000 + rowsFull * 1000;
     }
 
+    // Clears the grid
     public void Clear()
     {
         grid = new int[Width, Height];
