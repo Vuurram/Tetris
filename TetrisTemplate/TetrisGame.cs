@@ -56,7 +56,7 @@ class TetrisGame : Game
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
         MediaPlayer.IsRepeating = true;
-        MediaPlayer.Play(Content.Load<Song>("TetrisSong"));
+        //MediaPlayer.Play(Content.Load<Song>("Sound/TetrisSong"));
 
         // create and reset the game world
         gameWorld = new GameWorld();

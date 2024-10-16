@@ -42,7 +42,10 @@ class GameWorld
     /// </summary>
     GameState gameState = GameState.Playing;
 
-   // SoundEffect placingSoundEffect;
+    SoundEffect placingSoundEffect;
+    SoundEffect levelSoundEffect;
+    SoundEffect gameOverSoundEffect;
+
     /// <summary>
     /// The main grid of the game.
     /// </summary>
@@ -67,9 +70,10 @@ class GameWorld
         currentPosition = new Vector2(4, 0);
         currentTetrisBlock = new TetrisBlock(RandomBlockShape());
         nextTetrisBlock = new TetrisBlock(RandomBlockShape());
-       // placingSoundEffect = TetrisGame.ContentManager.Load<SoundEffect>("PlacingSoundEffect");
 
-
+        placingSoundEffect = TetrisGame.ContentManager.Load<SoundEffect>("Sound/PlacingSoundEffect");
+        levelSoundEffect = TetrisGame.ContentManager.Load<SoundEffect>("Sound/Level");
+        gameOverSoundEffect = TetrisGame.ContentManager.Load<SoundEffect>("Sound/GameOverSoundEffect");
     }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -133,8 +137,6 @@ class GameWorld
         {
             currentPosition.Y = grid.Height - tetrisBlockHeight;
         }
-
-        
     }
 
     public void IsRotationPossible()
@@ -151,10 +153,7 @@ class GameWorld
                     currentTetrisBlock.ReverseRotateBlocks();
                 }
             }
-        }
-
-        
-
+        } 
     }
 
     public bool IsShiftPossible(int newX, int newY)
@@ -190,7 +189,6 @@ class GameWorld
                     int gridY = (int)currentPosition.Y + j;
 
                     grid.grid[gridX, gridY] = currentTetrisBlock.blockShape[i, j];
-                   // placingSoundEffect.Play();
 
                 } 
             }
@@ -198,10 +196,15 @@ class GameWorld
     }
     public void Update(GameTime gameTime)
     {
+        if (gameState == GameState.GameOver) return;
         timer--;
         delta += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (grid.score >= 1000 * level) level++;
+        if (grid.score >= 1000 * level)
+        {
+            level++;
+            levelSoundEffect.Play();
+        }
         if (delta >= shiftSpeed - Math.Pow(level, 0.7f) * 0.1f)
         {
             delta = 0.0f;
@@ -209,6 +212,7 @@ class GameWorld
             if (!IsShiftPossible(0, 1))
             {
                 LockBlock(currentTetrisBlock, currentPosition);
+                placingSoundEffect.Play();
                 Reset();
             }
             currentPosition.Y++; 
@@ -255,6 +259,7 @@ class GameWorld
                     if (grid.grid[gridX, gridY] != 0)
                     {
                         gameState = GameState.GameOver;
+                        gameOverSoundEffect.Play();
                         return;
                     }
                 }

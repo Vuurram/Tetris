@@ -61,17 +61,35 @@
 /processorParam:TextureFormat=Color
 /build:Background/TetrisMenuBackground.jpg
 
-#begin block.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:block.png
+#begin Sound/GameOverSoundEffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/GameOverSoundEffect.wav
+
+#begin Sound/Level.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Level.wav
+
+#begin Sound/LockBlock.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/LockBlock.wav
+
+#begin Sound/PlacingSoundEffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/PlacingSoundEffect.wav
+
+#begin Sound/TetrisSong.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/TetrisSong.mp3
 
 #begin SpelFont.spritefont
 /importer:FontDescriptionImporter
@@ -91,10 +109,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:TetrisBlock.png
-
-#begin TetrisSong.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:TetrisSong.mp3
 
