@@ -152,6 +152,9 @@ class GameWorld
                 }
             }
         }
+
+        
+
     }
 
     public bool IsShiftPossible(int newX, int newY)
