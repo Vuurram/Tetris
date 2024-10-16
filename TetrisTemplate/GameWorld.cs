@@ -57,7 +57,7 @@ class GameWorld
         random = new Random();
         gameState = GameState.Playing;
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
-        background = TetrisGame.ContentManager.Load<Texture2D>("Background/TetrisBackground3");
+        background = TetrisGame.ContentManager.Load<Texture2D>("Background/TetrisBackground2");
 
         grid = new TetrisGrid();
         currentPosition = new Vector2(4, 0);
