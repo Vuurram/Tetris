@@ -1,22 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Linq.Expressions;
-using Tetris;
-//using static System.Reflection.Metadata.BlobBuilder;
+
 namespace Tetris
 {
+    // Class that represents the TetrisBlocks
     class TetrisBlock
     {
+        // Enum that contains the different blockshapes with the name most look a like
         public enum TetrisBlocks
         {
             L, J, O, I, S, Z, T
         }
+
+        // Property for the Blockshape array
         public int[,] blockShape { get; set; }
+
         public TetrisBlocks Blocks { get; private set; }
+
         Texture2D emptyCell;
-        public int ColorID;
+
         TetrisGrid tetrisGrid;
+
+        // Constructor method
         public TetrisBlock(TetrisBlocks blocks)
         {
             Blocks = blocks;
@@ -24,6 +29,8 @@ namespace Tetris
             emptyCell = TetrisGame.ContentManager.Load<Texture2D>("TetrisBlock");
             tetrisGrid = new TetrisGrid();
         }
+
+        // Method with switch that gives the blockShape array a value and so a blockshape
         private int[,] GetBlockShape(TetrisBlocks blocks)
         {
             switch (blocks)
@@ -38,6 +45,9 @@ namespace Tetris
                 default: return new int[4, 4];
             }
         }
+
+        // Method used to rotate the blocks
+        // Is called when up key is pressed
         public void RotateBlocks()
         {
             int q = blockShape.GetLength(0);
@@ -53,6 +63,7 @@ namespace Tetris
             blockShape = rotatedBlockShape;
         }
 
+        // Reverse rotate the blocks if the rotate is not possible due to rotating in the position of a different block
         public void ReverseRotateBlocks()
         {
             int q = blockShape.GetLength(0);
@@ -68,6 +79,7 @@ namespace Tetris
             blockShape = rotatedBlockShape;
         }
 
+        // Draws the blocks
         public void Draw(GameTime gametime, SpriteBatch spriteBatch, Vector2 gridPosition, Vector2 currentPosition)
         {
             for (int i = 0; i < blockShape.GetLength(0); i++)
