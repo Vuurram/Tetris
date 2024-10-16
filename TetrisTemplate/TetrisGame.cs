@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 class TetrisGame : Game
 {
@@ -47,6 +48,7 @@ class TetrisGame : Game
         inputHelper = new InputHelper();
     }
 
+   
     protected override void LoadContent()
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -58,12 +60,17 @@ class TetrisGame : Game
       
     }
 
+   
+
     protected override void Update(GameTime gameTime)
     {
         inputHelper.Update(gameTime);
         gameWorld.HandleInput(gameTime, inputHelper);
         gameWorld.Update(gameTime);
+        if (inputHelper.KeyPressed(Keys.Escape)) { Exit(); }
         base.Update(gameTime);
+
+        
     }
 
     protected override void Draw(GameTime gameTime)

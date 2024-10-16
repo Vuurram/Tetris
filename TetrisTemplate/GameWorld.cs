@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Tetris;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
-using static System.Formats.Asn1.AsnWriter;
 
 /// <summary>
 /// A class for representing the game world.
@@ -78,7 +76,7 @@ class GameWorld
         if (inputHelper.KeyPressed(Keys.Space))
         {
             while (IsShiftPossible(0, 1))
-            currentPosition.Y++;
+                currentPosition.Y++;
         }
 
         if ((inputHelper.KeyDown(Keys.Down)) && (IsShiftPossible(0, 1)) && (timer <= 0))
@@ -98,6 +96,7 @@ class GameWorld
             timer = 8;
             currentPosition.X--;           
         }
+       
     }
 
     public void SetPositionCorrect()
