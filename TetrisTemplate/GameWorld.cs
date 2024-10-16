@@ -75,6 +75,12 @@ class GameWorld
             SetPositionCorrect();
         }
 
+        if (inputHelper.KeyPressed(Keys.Space))
+        {
+            while (IsShiftPossible(0, 1))
+            currentPosition.Y++;
+        }
+
         if ((inputHelper.KeyDown(Keys.Down)) && (IsShiftPossible(0, 1)) && (timer <= 0))
         {
             timer = 3;
