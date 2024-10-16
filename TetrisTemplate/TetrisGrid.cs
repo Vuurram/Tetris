@@ -6,11 +6,15 @@ using Tetris;
 /// A class for representing the Tetris playing grid.
 class TetrisGrid
 {
-    /// The sprite of a single empty cell in the grid.
-    public Texture2D emptyCell;
+    // The sprite of a single empty cell in the grid.
+    Texture2D emptyCell;
 
-    /// The position at which this TetrisGrid should be drawn.
+    // The position at which this TetrisGrid should be drawn.
     Vector2 gridPosition;
+
+    TetrisBlock TetrisBlock;
+
+    SpriteFont font;
 
     // Creates a new tetris grid
     public int[,] grid;
@@ -23,15 +27,9 @@ class TetrisGrid
 
     // Creates a property for the gridPosition
     public Vector2 GridPosition { get { return gridPosition; } }
-
-    TetrisBlock TetrisBlock;
     
     // Creates the property of the Score
     public int score { get; set; }
-
-    
-    SpriteFont font;
-
     
     // Constructor method 
     public TetrisGrid()
