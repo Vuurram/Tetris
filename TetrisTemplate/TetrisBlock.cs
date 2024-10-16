@@ -79,7 +79,7 @@ namespace Tetris
             blockShape = rotatedBlockShape;
         }
 
-        // Draws the blocks
+        // Method that draws the various blocks
         public void Draw(GameTime gametime, SpriteBatch spriteBatch, Vector2 gridPosition, Vector2 currentPosition)
         {
             for (int i = 0; i < blockShape.GetLength(0); i++)
