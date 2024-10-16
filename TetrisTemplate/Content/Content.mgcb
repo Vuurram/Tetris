@@ -73,6 +73,12 @@
 /processorParam:TextureFormat=Color
 /build:block.png
 
+#begin PlacingSoundEffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:PlacingSoundEffect.wav
+
 #begin SpelFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -91,4 +97,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:TetrisBlock.png
+
+#begin TetrisSong.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:TetrisSong.mp3
 

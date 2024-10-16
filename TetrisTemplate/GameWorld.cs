@@ -4,7 +4,8 @@ using System;
 using Tetris;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
-using static System.Formats.Asn1.AsnWriter;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 /// <summary>
 /// A class for representing the game world.
@@ -39,6 +40,7 @@ class GameWorld
     /// </summary>
     GameState gameState = GameState.Playing;
 
+   // SoundEffect placingSoundEffect;
     /// <summary>
     /// The main grid of the game.
     /// </summary>
@@ -63,6 +65,7 @@ class GameWorld
         currentPosition = new Vector2(4, 0);
         currentTetrisBlock = new TetrisBlock(RandomBlockShape());
         nextTetrisBlock = new TetrisBlock(RandomBlockShape());
+       // placingSoundEffect = TetrisGame.ContentManager.Load<SoundEffect>("PlacingSoundEffect");
 
 
     }
@@ -159,6 +162,8 @@ class GameWorld
                     int gridY = (int)currentPosition.Y + j;
 
                     grid.grid[gridX, gridY] = currentTetrisBlock.blockShape[i, j];
+                   // placingSoundEffect.Play();
+
                 } 
             }
         }

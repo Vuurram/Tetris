@@ -41,6 +41,7 @@ class TetrisGrid
         gridPosition = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
         grid = new int[Width, Height];
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
+        
         Clear();
     }
 

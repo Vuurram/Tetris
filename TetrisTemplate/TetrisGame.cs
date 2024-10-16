@@ -2,6 +2,9 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
+
 
 class TetrisGame : Game
 {
@@ -50,6 +53,8 @@ class TetrisGame : Game
     protected override void LoadContent()
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
+        MediaPlayer.IsRepeating = true;
+        MediaPlayer.Play(Content.Load<Song>("TetrisSong"));
 
         // create and reset the game world
         gameWorld = new GameWorld();
