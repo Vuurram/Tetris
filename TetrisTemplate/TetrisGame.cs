@@ -65,10 +65,8 @@ class TetrisGame : Game
         inputHelper.Update(gameTime);
         gameWorld.HandleInput(gameTime, inputHelper);
         gameWorld.Update(gameTime);
-        if(inputHelper.KeyPressed(Keys.Escape)) { Exit(); }
+        if(inputHelper.KeyPressed(Keys.Escape)) Exit();
         base.Update(gameTime);
-
-        
     }
 
     protected override void Draw(GameTime gameTime)

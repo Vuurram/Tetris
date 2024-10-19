@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using System;
-using System.Linq.Expressions;
-using Tetris;
 namespace Tetris
 {
     // Class that represents the TetrisBlocks
@@ -17,7 +14,7 @@ namespace Tetris
         public int[,] blockShape { get; set; }
 
         public TetrisBlocks Blocks { get; private set; }
-        Texture2D emptyCell;
+        Texture2D block;
         public int ColorID;
         TetrisGrid tetrisGrid;
         public TetrisBlock(TetrisBlocks blocks)

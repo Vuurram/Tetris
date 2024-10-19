@@ -22,6 +22,7 @@ class GameWorld
 
     // Intenger that stores the value of the current level
     bool GameOverButtonVisible = false;
+    bool pauseGame = false;
 
     Rectangle gameOverButton = new Rectangle(760, 460, 500, 150);
     int level = 1;
@@ -34,8 +35,8 @@ class GameWorld
     /// The main font of the game.
     /// </summary>
     SpriteFont font;
-    Texture2D background;
-    
+    Texture2D background, gameOverBackground, button;
+
     // The current game state.
     GameState gameState = GameState.Playing;
 
@@ -47,14 +48,14 @@ class GameWorld
     /// <summary>
     /// The main grid of the game.
     /// </summary>
-    TetrisGrid grid;
+    TetrisGrid tetrisGrid;
 
     // The current/next blocks
     TetrisBlock currentTetrisBlock;
     TetrisBlock nextTetrisBlock;
     private Vector2 currentPosition;
 
-    private float shiftSpeed = 1.0f; 
+    private float shiftSpeed = 1.0f;
     private float delta;
     public float timer;
 
@@ -83,8 +84,8 @@ class GameWorld
     // Also moves the block thru the grid if a shift is possible in the given direction
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        if(inputHelper.KeyPressed(Keys.Up))
-        {   
+        if (inputHelper.KeyPressed(Keys.Up))
+        {
             currentTetrisBlock.RotateBlocks();
             SetPositionCorrect();
             IsRotationPossible();
@@ -97,27 +98,34 @@ class GameWorld
                 currentPosition.Y++;
         }
 
+        // makes the bool the opposite value
+        if (inputHelper.KeyPressed(Keys.P))
+        {
+            pauseGame = !pauseGame;
+        }
+
         if ((inputHelper.KeyDown(Keys.Down)) && (IsShiftPossible(0, 1)) && (timer <= 0))
         {
             timer = 3;
             currentPosition.Y++;
         }
 
-        if ((inputHelper.KeyDown(Keys.Right)) && (IsShiftPossible(1, 0)) && (timer <= 0)) 
+        if ((inputHelper.KeyDown(Keys.Right)) && (IsShiftPossible(1, 0)) && (timer <= 0))
         {
             timer = 8;
-            currentPosition.X++;          
+            currentPosition.X++;
         }
 
         if ((inputHelper.KeyDown(Keys.Left)) && (IsShiftPossible(-1, 0)) && (timer <= 0))
         {
             timer = 8;
-            currentPosition.X--;           
+            currentPosition.X--;
         }
 
-        if (gameOverButton.Contains(inputHelper.MousePosition) && (inputHelper.MouseLeftButtonPressed()) && GameOverButtonVisible)
+        if (gameOverButton.Contains(inputHelper.MousePosition) && (inputHelper.MouseLeftButtonPressed()) && (GameOverButtonVisible))
         {
             gameState = GameState.Playing;
+            GameOverButtonVisible = false;
             ResetGame();
         }
     }
@@ -148,7 +156,7 @@ class GameWorld
             currentPosition.Y = tetrisGrid.Height - tetrisBlockHeight;
         }
     }
-    
+
     // Checks if a rotation is possible and the block is not getting stuck in an other
     public void IsRotationPossible()
     {
@@ -164,14 +172,14 @@ class GameWorld
                     currentTetrisBlock.ReverseRotateBlocks();
                 }
             }
-        } 
+        }
     }
 
     // Bool that checks if an shift in the given direction is possible
     // It checks if the next position is a collision with an other block or is outside the grit
     public bool IsShiftPossible(int newX, int newY)
     {
-        for (int i = 0; i < currentTetrisBlock.blockShape.GetLength(0); i++) 
+        for (int i = 0; i < currentTetrisBlock.blockShape.GetLength(0); i++)
         {
             for (int j = 0; j < currentTetrisBlock.blockShape.GetLength(1); j++)
             {
@@ -204,12 +212,14 @@ class GameWorld
 
                     tetrisGrid.grid[gridX, gridY] = currentTetrisBlock.blockShape[i, j];
 
-                } 
+                }
             }
         }
     }
+
     public void Update(GameTime gameTime)
     {
+        if (gameState == GameState.GameOver || pauseGame) return;
         timer--;
         delta += (float)gameTime.ElapsedGameTime.TotalSeconds;
         {
@@ -222,16 +232,38 @@ class GameWorld
             {
                 delta = 0.0f;
 
-            if (!IsShiftPossible(0, 1))
-            {
-                LockBlock(currentTetrisBlock, currentPosition);
-                placingSoundEffect.Play();
-                Reset();
+                if (!IsShiftPossible(0, 1))
+                {
+                    LockBlock(currentTetrisBlock, currentPosition);
+                    placingSoundEffect.Play();
+                    Reset();
+                }
+                currentPosition.Y++;
             }
-            currentPosition.Y++; 
         }
     }
-  
+
+    private void ResetGame()
+    {
+        for (int i = 0; i < tetrisGrid.grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < tetrisGrid.grid.GetLength(1); j++)
+            {
+                tetrisGrid.grid[i, j] = 0;
+            }
+        }
+        tetrisGrid.score = 0;
+        level = 1;
+    }
+
+    private void DrawButton(SpriteBatch _spriteBatch, Rectangle buttonRectangle, string buttonText)
+    {
+        float scale = 2.0f;
+        _spriteBatch.Draw(button, buttonRectangle, Color.White);
+        Vector2 textSize = font.MeasureString(buttonText);
+        Vector2 textPosition = new Vector2(buttonRectangle.X + (buttonRectangle.Width / 2) - (textSize.X * scale / 2), buttonRectangle.Y + (buttonRectangle.Height / 2) - (textSize.Y * scale / 2));
+        _spriteBatch.DrawString(font, buttonText, textPosition, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+    }
 
     public TetrisBlock.TetrisBlocks RandomBlockShape()
     {
@@ -239,12 +271,12 @@ class GameWorld
     }
 
     // Method that draws the background, current- and nextblock
-   public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+    public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         int textScale = 2;
         string Level = "The Level is: " + level.ToString();
         string Score = "The score is: " + tetrisGrid.score.ToString();
-       
+
         spriteBatch.Begin();
         if (gameState == GameState.Playing)
         {
