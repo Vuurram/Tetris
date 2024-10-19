@@ -46,6 +46,7 @@ class TetrisGame : Game
 
         // create the input helper object
         inputHelper = new InputHelper();
+        IsMouseVisible = true;
     }
 
    // Mehod used to load all the content
@@ -53,11 +54,9 @@ class TetrisGame : Game
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
         MediaPlayer.IsRepeating = true;
-        //MediaPlayer.Play(Content.Load<Song>("Sound/TetrisSong"));
-
-        // create and reset the game world
+        MediaPlayer.Play(Content.Load<Song>("Sound/TetrisSong"));
+        MediaPlayer.Volume = 0.005f;
         gameWorld = new GameWorld();
-        gameWorld.Reset();
     }
    
     

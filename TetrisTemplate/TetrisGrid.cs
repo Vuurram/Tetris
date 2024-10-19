@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Tetris;
+using static System.Formats.Asn1.AsnWriter;
 
 /// A class for representing the Tetris playing grid.
 class TetrisGrid
@@ -11,8 +12,6 @@ class TetrisGrid
 
     // The position at which this TetrisGrid should be drawn.
     Vector2 gridPosition;
-
-    TetrisBlock TetrisBlock;
 
     SpriteFont font;
 
@@ -27,18 +26,17 @@ class TetrisGrid
 
     // Creates a property for the gridPosition
     public Vector2 GridPosition { get { return gridPosition; } }
-    
+
     // Creates the property of the Score
-    public int score { get; set; }
-    
+    public int score;
+
     // Constructor method 
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("TetrisBlock");
-        gridPosition = new Vector2((1920- (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
+        gridPosition = new Vector2((1920 - (emptyCell.Width * Width)) /2, (1080 - (emptyCell.Height * Height)) / 2);
         grid = new int[Width, Height];
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
-        Clear();
     }
 
     // Method is used for drawing the grid and the current score
@@ -53,11 +51,6 @@ class TetrisGrid
                 spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + i * emptyCell.Width, gridPosition.Y + j * emptyCell.Height), color);
             }
         }
-        int textScale = 2;
-        string points = "The score is: " + score.ToString();
-        Vector2 textSize = font.MeasureString(points);
-        Vector2 textPosition = new Vector2((300 - textSize.X * textScale) / 2, (250 - textSize.Y * textScale));
-        spriteBatch.DrawString(font, points, textPosition, Color.White, 0, Vector2.Zero, textScale, SpriteEffects.None, 0);
     }
 
     // Method that returns the value of a color
@@ -116,8 +109,7 @@ class TetrisGrid
         }  
     }
 
-    // Keeps count of the score
-    void Score(int rowsFull)
+    public void Score(int rowsFull)
     {
         score += Math.Max(0, rowsFull - 1) * 1000 + rowsFull * 1000;
     }

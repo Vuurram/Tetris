@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq.Expressions;
 using Tetris;
-//using static System.Reflection.Metadata.BlobBuilder;
 namespace Tetris
 {
     class TetrisBlock
@@ -12,16 +11,20 @@ namespace Tetris
         {
             L, J, O, I, S, Z, T
         }
+
         public int[,] blockShape { get; set; }
+
         public TetrisBlocks Blocks { get; private set; }
-        Texture2D emptyCell;
-        public int ColorID;
+
+        Texture2D block;
+
         TetrisGrid tetrisGrid;
+
         public TetrisBlock(TetrisBlocks blocks)
         {
-            Blocks = blocks;
             blockShape = GetBlockShape(blocks);
-            emptyCell = TetrisGame.ContentManager.Load<Texture2D>("TetrisBlock");
+            block = TetrisGame.ContentManager.Load<Texture2D>("TetrisBlock");
+
             tetrisGrid = new TetrisGrid();
         }
         private int[,] GetBlockShape(TetrisBlocks blocks)
@@ -47,7 +50,7 @@ namespace Tetris
             {
                 for (int y = 0; y < r; y++)
                 {
-                        rotatedBlockShape[y, q - 1 - x] = blockShape[x, y];
+                    rotatedBlockShape[y, q - 1 - x] = blockShape[x, y];
                 }
             }
             blockShape = rotatedBlockShape;
@@ -77,7 +80,7 @@ namespace Tetris
                     if (blockShape[i, j] != 0)
                     {
                         Color color = tetrisGrid.GetColor(blockShape[i, j]);
-                        spriteBatch.Draw(emptyCell, new Vector2(gridPosition.X + (currentPosition.X + i) * emptyCell.Width, gridPosition.Y + (currentPosition.Y + j) * emptyCell.Height), color);
+                        spriteBatch.Draw(block, new Vector2(gridPosition.X + (currentPosition.X + i) * block.Width, gridPosition.Y + (currentPosition.Y + j) * block.Height), color);
                     }
                 }
             }
