@@ -3,50 +3,43 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Tetris;
 using Microsoft.Xna.Framework.Input;
-
-using System.Diagnostics;
-using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using static System.Formats.Asn1.AsnWriter;
 using System.Reflection.Metadata.Ecma335;
 
 
-/// <summary>
-/// A class for representing the game world.
-/// This contains the grid, the falling block, and everything else that the player can see/do.
-/// </summary>
+
+// A class for representing the game world.
+// This contains the grid, the falling block, and everything else that the player can see/do.
 class GameWorld
 {
-    /// <summary>
     /// An enum for the different game states that the game can have.
-    /// </summary>
     enum GameState
     {
         Playing,
         GameOver
     }
 
+    // Intenger that stores the value of the current level
     bool GameOverButtonVisible = false;
 
     Rectangle gameOverButton = new Rectangle(760, 460, 500, 150);
     int level = 1;
 
-    /// <summary>
     /// The random-number generator of the game.
     /// </summary>
-    /// 
-    Random random;
-
+    public static Random Random { get { return random; } }
+    static Random random;
     /// <summary>
     /// The main font of the game.
     /// </summary>
     SpriteFont font;
-    Texture2D background, gameOverBackground, button;
-    /// <summary>
-    /// The current game state.
-    /// </summary>
+    Texture2D background;
+    
+    // The current game state.
     GameState gameState = GameState.Playing;
 
+    // The used soundeffects
     SoundEffect placingSoundEffect;
     SoundEffect levelSoundEffect;
     SoundEffect gameOverSoundEffect;
@@ -54,16 +47,18 @@ class GameWorld
     /// <summary>
     /// The main grid of the game.
     /// </summary>
-    TetrisGrid tetrisGrid;
+    TetrisGrid grid;
 
+    // The current/next blocks
     TetrisBlock currentTetrisBlock;
     TetrisBlock nextTetrisBlock;
     private Vector2 currentPosition;
 
-    private float shiftSpeed = 1.0f;
+    private float shiftSpeed = 1.0f; 
     private float delta;
     public float timer;
 
+    // Constructor method 
     public GameWorld()
     {
         random = new Random();
@@ -84,6 +79,8 @@ class GameWorld
         gameOverSoundEffect = TetrisGame.ContentManager.Load<SoundEffect>("Sound/GameOverSoundEffect");
     }
 
+    // Method used for all the input, such as if an key is pressed or hold down
+    // Also moves the block thru the grid if a shift is possible in the given direction
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
         if(inputHelper.KeyPressed(Keys.Up))
@@ -125,6 +122,7 @@ class GameWorld
         }
     }
 
+    // Sets the position of the block back in the grid when it gets out of the grid by rotating
     public void SetPositionCorrect()
     {
         int tetrisBlockWidth = currentTetrisBlock.blockShape.GetLength(0);
@@ -150,7 +148,8 @@ class GameWorld
             currentPosition.Y = tetrisGrid.Height - tetrisBlockHeight;
         }
     }
-
+    
+    // Checks if a rotation is possible and the block is not getting stuck in an other
     public void IsRotationPossible()
     {
         for (int i = 0; i < currentTetrisBlock.blockShape.GetLength(0); i++)
@@ -168,6 +167,8 @@ class GameWorld
         } 
     }
 
+    // Bool that checks if an shift in the given direction is possible
+    // It checks if the next position is a collision with an other block or is outside the grit
     public bool IsShiftPossible(int newX, int newY)
     {
         for (int i = 0; i < currentTetrisBlock.blockShape.GetLength(0); i++) 
@@ -189,6 +190,7 @@ class GameWorld
         return true;
     }
 
+    // Method that locks a block at the position where it can not move further
     public void LockBlock(TetrisBlock currenTetrisBlock, Vector2 currentPosition)
     {
         for (int i = 0; i < currentTetrisBlock.blockShape.GetLength(0); i++)
@@ -206,7 +208,6 @@ class GameWorld
             }
         }
     }
-
     public void Update(GameTime gameTime)
     {
         timer--;
@@ -221,45 +222,24 @@ class GameWorld
             {
                 delta = 0.0f;
 
-                if (!IsShiftPossible(0, 1))
-                {
-                    LockBlock(currentTetrisBlock, currentPosition);
-                    placingSoundEffect.Play();
-                    Reset();
-                }
-                currentPosition.Y++;
-            }
-        }
-    }
-
-    private void ResetGame()
-    {
-        for (int i = 0; i < tetrisGrid.grid.GetLength(0); i++)
-        {
-            for (int j = 0; j < tetrisGrid.grid.GetLength(1); j++)
+            if (!IsShiftPossible(0, 1))
             {
-                tetrisGrid.grid[i, j] = 0;
+                LockBlock(currentTetrisBlock, currentPosition);
+                placingSoundEffect.Play();
+                Reset();
             }
+            currentPosition.Y++; 
         }
-        tetrisGrid.score = 0;
-        level = 1;
     }
-
-    private void DrawButton(SpriteBatch _spriteBatch, Rectangle buttonRectangle, string buttonText)
-    {
-        float scale = 2.0f;
-        _spriteBatch.Draw(button, buttonRectangle, Color.White);
-        Vector2 textSize = font.MeasureString(buttonText);
-        Vector2 textPosition = new Vector2(buttonRectangle.X + (buttonRectangle.Width / 2) - (textSize.X * scale / 2), buttonRectangle.Y + (buttonRectangle.Height / 2) - (textSize.Y * scale / 2));
-        _spriteBatch.DrawString(font, buttonText, textPosition, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
-    }
+  
 
     public TetrisBlock.TetrisBlocks RandomBlockShape()
     {
         return (TetrisBlock.TetrisBlocks)random.Next(0, 7);
     }
 
-    public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+    // Method that draws the background, current- and nextblock
+   public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         int textScale = 2;
         string Level = "The Level is: " + level.ToString();
@@ -284,6 +264,7 @@ class GameWorld
         spriteBatch.End();
     }
 
+    // Method that makes the currentblock the nextblock and makes a nextblock
     public void Reset()
     {
         currentPosition = new Vector2(4, 0);
